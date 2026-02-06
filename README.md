@@ -1,5 +1,12 @@
-
 # StayBooking MVP
+
+**Сайт проекта:** [Посетить StayBooking →](https://angelok5200.github.io/aaaaaaaaaaaaaaaaaaa/)
+
+## Описание проекта
+
+StayBooking MVP — это полнофункциональное веб-приложение для бронирования жилья, вдохновленное Booking.com. Это портфельный проект, демонстрирующий modern stack для разработки full-stack приложений с фронтенда на React и бэкенда на Spring Boot.
+
+Приложение включает все необходимые функции для реального сервиса бронирования: регистрацию пользователей, поиск по городам, просмотр объектов размещения, систему отзывов и полный цикл управления бронированиями с автоматической валидацией и отправкой писем подтверждения.
 
 A full-stack booking application similar to Booking.com, designed as a portfolio project.
 
@@ -43,7 +50,7 @@ A full-stack booking application similar to Booking.com, designed as a portfolio
 
 ## Neon PostgreSQL (production / shared DB)
 
-Backend can connect directly to Neon using the standard `DATABASE_URL` you get from the Neon console, e.g.:
+Backend can connect directly to Neon using the standard `DATABASE_URL` you get from the Neon console, e.g.: 
 
 - `DATABASE_URL=postgresql://USER:PASSWORD@HOST/DB?sslmode=require`
 
@@ -56,4 +63,3 @@ You can also provide a JDBC URL directly:
 - `SPRING_DATASOURCE_PASSWORD=PASSWORD`
 
 Tip: in production, set `SPRING_PROFILES_ACTIVE=prod` so Hibernate uses `validate` (won't auto-change schema).
-
