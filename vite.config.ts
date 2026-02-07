@@ -6,8 +6,8 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, ".", "");
 
   return {
-    // важно для GitHub Pages (repo pages)
-    base: "/aaaaaaaaaaaaaaaaaaa/",
+    // 1. Убедись, что название репозитория в точности совпадает
+    base: "/aaaaaaaaaaaaaaaaaaa/", 
 
     plugins: [react()],
 
@@ -17,6 +17,13 @@ export default defineConfig(({ mode }) => {
       allowedHosts: true,
     },
 
+    // 2. Настройки сборки (чтобы CSS не терялся)
+    build: {
+      outDir: "dist",
+      assetsDir: "assets",
+      emptyOutDir: true,
+    },
+
     define: {
       "process.env.API_KEY": JSON.stringify(env.GEMINI_API_KEY),
       "process.env.GEMINI_API_KEY": JSON.stringify(env.GEMINI_API_KEY),
@@ -24,7 +31,9 @@ export default defineConfig(({ mode }) => {
 
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "."),
+        // Исправил алиас: теперь @ указывает прямо на папку src
+        // Это стандарт для React-проектов, так импорты не будут ломаться
+        "@": path.resolve(__dirname, "./src"),
       },
     },
   };
