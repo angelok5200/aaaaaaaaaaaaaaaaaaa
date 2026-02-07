@@ -1,12 +1,13 @@
-
 import React, { useState, useEffect } from 'react';
 import { Room, Language } from '../types';
 import RoomCard from '../components/RoomCard';
-import { api } from '../services/api';
 
 interface HomePageProps {
   language: Language;
 }
+
+// !!! ВНИМАНИЕ: Замени эту ссылку на свою из Render !!!
+const RENDER_URL = "https://твой-сервис-на-рендере.onrender.com";
 
 const HomePage: React.FC<HomePageProps> = ({ language }) => {
   const [rooms, setRooms] = useState<Room[]>([]);
@@ -41,12 +42,23 @@ const HomePage: React.FC<HomePageProps> = ({ language }) => {
     }
   }[language];
 
+  // ИСПРАВЛЕННАЯ ФУНКЦИЯ ЗАПРОСА
   const fetchRooms = async () => {
     setLoading(true);
     try {
-      const query = `?city=${search.city}&guests=${search.guests}&checkIn=${search.checkIn}&checkOut=${search.checkOut}`;
-      const data = await api.get(`/rooms${query}`);
-      setRooms(Array.isArray(data) ? data : []);
+      // Мы обращаемся напрямую к твоему серверу на Render
+      const response = await fetch(`${RENDER_URL}/api/rooms`);
+      const data = await response.json();
+      
+      // Фильтрация (так как база пока простая, фильтруем прямо на фронте)
+      let filteredData = data;
+      if (search.city) {
+        filteredData = data.filter((r: Room) => 
+          r.location.toLowerCase().includes(search.city.toLowerCase())
+        );
+      }
+      
+      setRooms(Array.isArray(filteredData) ? filteredData : []);
     } catch (err) {
       console.error("HomePage Error:", err);
       setRooms([]);
