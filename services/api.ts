@@ -1,5 +1,5 @@
 // ВНИМАНИЕ: Замени эту ссылку на свою из Render (без слэша в конце!)
-const API_BASE_URL = 'https://aaaaaaaaaaaaaaaaaaa-rzrb.onrender.com;
+const API_BASE_URL = 'https://aaaaaaaaaaaaaaaaaaa-rzrb.onrender.com';
 
 // Мы оставляем MOCK_ROOMS только как аварийный запас
 const MOCK_ROOMS = [
