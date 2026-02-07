@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Header from './components/Header';
@@ -18,7 +17,11 @@ const App: React.FC = () => {
     const token = localStorage.getItem('token');
     const savedUser = localStorage.getItem('user');
     if (token && savedUser) {
-      setUser(JSON.parse(savedUser));
+      try {
+        setUser(JSON.parse(savedUser));
+      } catch (e) {
+        console.error("Ошибка парсинга пользователя", e);
+      }
     }
     setLoading(false);
   }, []);
@@ -42,6 +45,7 @@ const App: React.FC = () => {
         />
         <main className="flex-grow">
           <Routes>
+            {/* HomePage теперь будет сама запрашивать данные из Neon */}
             <Route path="/" element={<HomePage language={language} />} />
             <Route path="/room/:id" element={<RoomPage user={user} language={language} />} />
             <Route path="/login" element={<LoginPage setUser={setUser} language={language} />} />
