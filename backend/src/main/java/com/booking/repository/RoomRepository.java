@@ -9,5 +9,22 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
-    List<RoomEntity> findByCityContainingIgnoreCase(String city);
+    @Query("""
+        SELECT r
+        FROM RoomEntity r
+        WHERE r.city = :city
+          AND NOT EXISTS (
+              SELECT 1
+              FROM BookingEntity b
+              WHERE b.roomEntity = r
+                AND b.status = com.booking.entity.BookingStatus.CONFIRMED
+                AND b.checkIn < :checkOut
+                AND b.checkOut > :checkIn
+          )
+        """)
+    List<RoomEntity> findAvailableRooms(
+            @Param("city") String city,
+            @Param("checkIn") LocalDate checkIn,
+            @Param("checkOut") LocalDate checkOut
+    );
 }

@@ -2,24 +2,40 @@
 package com.booking.entity;
 
 import jakarta.persistence.*;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.experimental.FieldDefaults;
 
 @Entity
 @Table(name = "rooms")
 @Data
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class RoomEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    private String title;
-    private String description;
-    private String city;
-    private Double pricePerNight;
-    private Integer maxGuests;
-    private String imageUrl;
+    @Column
+    String title;
+
+    @Column
+    String description;
+
+    @Column
+    String city;
+
+    @Column
+    Double pricePerNight;
+
+    @Column
+    Integer maxGuests;
+
+    @Column
+    String imageUrl;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", nullable = false)
-    private UserEntity owner;
+    UserEntity owner;
+
 }

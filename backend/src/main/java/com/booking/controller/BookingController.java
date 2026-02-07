@@ -1,54 +1,66 @@
 
 package com.booking.controller;
 
-import com.booking.entity.Booking;
-import com.booking.entity.UserEntity;
+import com.booking.dto.booking.BookingDto;
+import com.booking.dto.booking.CreateBookingRequest;
+import com.booking.entity.BookingEntity;
+import com.booking.entity.BookingStatus;
 import com.booking.service.BookingService;
-import com.booking.repository.UserRepository;
-import com.booking.repository.RoomRepository;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/bookings")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BookingController {
-    private final BookingService bookingService;
-    private final UserRepository userRepository;
-    private final RoomRepository roomRepository;
+
+    BookingService service;
 
     @PostMapping
-    public ResponseEntity<?> createBooking() {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<BookingDto> createBooking(@RequestBody CreateBookingRequest request) {
+        BookingDto result = service.createBooking(request);
+        return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/{id}")
-    public List<Map<String, Object>> getMyBookings(Authentication auth) {
-        return null;
+    @GetMapping("/myBookings")
+    public List<BookingDto> getUserBookings() {
+        return service.getUserBookings();
     }
 
-    @GetMapping("/managed")
-    public List<Map<String, Object>> getManagedBookings(Authentication auth) {
-        return null;
-    }
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/{id}/confirm")
-    public ResponseEntity<?> confirmBooking(@PathVariable Long id, Authentication auth) {
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> confirmBooking(@PathVariable Long id) {
+        boolean result = service.changeBookingStatus(id, BookingStatus.CONFIRMED);
+        if(result) {
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.status(500).build();
     }
 
     @PostMapping("/{id}/reject")
-    public ResponseEntity<?> rejectBooking(@PathVariable Long id, Authentication auth) {
-        return null;
+    public ResponseEntity<String> rejectBooking(@PathVariable Long id) {
+        boolean result = service.changeBookingStatus(id, BookingStatus.REJECTED);
+        if(result) {
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.status(500).build();
+    }
+
+    @PostMapping("/{id}/cancel")
+    public ResponseEntity<String> cancelBooking(@PathVariable Long id) {
+        boolean result = service.changeBookingStatus(id, BookingStatus.CANCELLED);
+        if(result) {
+            return ResponseEntity.accepted().build();
+        }
+        return ResponseEntity.status(500).build();
     }
 }
