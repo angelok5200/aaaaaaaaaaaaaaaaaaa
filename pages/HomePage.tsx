@@ -7,7 +7,7 @@ interface HomePageProps {
 }
 
 // !!! ВНИМАНИЕ: Замени эту ссылку на свою из Render !!!
-const RENDER_URL = "https://твой-сервис-на-рендере.onrender.com";
+const RENDER_URL = "https://aaaaaaaaaaaaaaaaaaa-rzrb.onrender.com";
 
 const HomePage: React.FC<HomePageProps> = ({ language }) => {
   const [rooms, setRooms] = useState<Room[]>([]);
