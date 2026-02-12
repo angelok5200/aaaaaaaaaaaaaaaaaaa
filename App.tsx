@@ -58,7 +58,7 @@ const App: React.FC = () => {
         </main>
         <footer className="bg-gray-800 text-white py-8 px-4 mt-auto">
           <div className="max-w-7xl mx-auto text-center">
-            <p>&copy; 2024 StayBooking MVP. Built for Portfolio.</p>
+            <p>&copy; 2026 StayBooking MVP. Built for Portfolio.</p>
           </div>
         </footer>
       </div>
