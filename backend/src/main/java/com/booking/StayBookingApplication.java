@@ -13,3 +13,15 @@ public class StayBookingApplication {
         SpringApplication.run(StayBookingApplication.class, args);
     }
 }
+@Configuration
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**") // Разрешаем CORS для всех путей
+                .allowedOrigins("https://angelok5200.github.io") // Ссылка на твой фронтенд
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true);
+    }
+}
